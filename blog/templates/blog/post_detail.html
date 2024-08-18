@@ -1,0 +1,203 @@
+{% extends "blog/base.html" %}
+{% load crispy_forms_tags %}
+{% block head_title %}
+    {{post.title}} - Blog
+{% endblock  %}
+{% block main_area %}
+    <div id="post-area">
+        <!-- Post content-->
+        <article>
+            <!-- Post header-->
+            <header class="mb-4">
+                <!-- Post title-->
+                <h1 class="fw-bolder mb-1">{{ post.title }}</h1>
+                <!-- Post categories-->
+                {% if post.category  %}
+                    <span class="badge badge-secondary float-right">{{ post.category }}</span>                
+                {% else %}
+                    <span class="badge badge-secondary float-right">Unclassified</span>
+                {% endif %}
+                <h5 class="text-muted">{{ post.hook_text}} </h5>
+                
+                {% if user.is_authenticated and user == post.author %}
+                    <a class="btn btn-info btn-sm float-right" href="/blog/update_post/{{ post.pk }}/" role="button"><i class="fas fa-pen"></i>  Edit Post</a>
+                {% endif %}
+                
+                <!-- Post meta content-->
+                <div class="text-muted fst-italic mb-2">Posted on {{ post.created_at}} by
+                    <a ref="#">{{post.author | upper}}</a>
+                </div>
+
+            </header>
+            <!-- Preview image figure-->
+            <figure class="mb-4">
+                {% comment %} <img class="img-fluid rounded" src="{{post.head_image.url}}" alt="..." /> {% endcomment %}
+                {% if post.head_image %}
+                    <img class="card-img-top" src="{{ post.head_image.url }}" alt="{{p}} head image" >
+                {% else %}
+                    <img class="card-img-top" src="https://picsum.photos/seed/{{post.id}}/800/200" alt="random_image" >
+                {% endif %}
+            </figure>
+            <!-- Post content-->
+            <section class="mb-5">
+                {% comment %} <p> {{ post.content}} </p> {% endcomment %}
+                <p> {{ post.get_content_markdown | safe}} </p>
+
+                {% if post.tags.exists  %}
+                    <i class="fas fa-tags"></i>
+                    {% for tag in post.tags.iterator %}
+                        <a ref="{{ tag.get_absolute_url}}"><span class="badge badge-pill badge-light">{{tag}}</span></a>
+                    {% endfor %}
+                    <br/>
+                    <br/>
+                {% endif %}
+
+                {% if post.file_upload  %}
+                    <a class="btn btn-primary" href="{{ post.file_upload.url}}" role="button">
+                        Download:
+
+                        {% if post.get_file_ext == 'csv' %}
+                            <i class="fa-solid fa-file-csv"></i>
+                        {% elif post.get_file_ext == 'xls' or post.get_file_ext == 'xlsx' %}
+                            <i class="fa-solid fa-file-excel"></i>
+                        {% elif post.get_file_ext == 'doc' or post.get_file_ext == 'docx' %}                                    
+                            <i class="fa-solid fa-file-word"></i>
+                        {% elif post.get_file_ext == 'pdf' %}
+                            <i class="fa-solid fa-file-pdf"></i>    
+                        {% else %}
+                            <i class="fa-solid fa-circle-question"></i>
+                        {% endif %}
+
+                        {{post.get_file_name}}
+                    </a>
+                    
+                {% endif %}
+
+                {% comment %} <p class="fs-5 mb-4">Science is an enterprise that should be cherished as an activity of the free human mind. Because it transforms who we are, how we live, and it gives us an understanding of our place in the universe.</p>
+                <p class="fs-5 mb-4">The universe is large and old, and the ingredients for life as we know it are everywhere, so there's no reason to think that Earth would be unique in that regard. Whether of not the life became intelligent is a different question, and we'll see if we find that.</p>
+                <p class="fs-5 mb-4">If you get asteroids about a kilometer in size, those are large enough and carry enough energy into our system to disrupt transportation, communication, the food chains, and that can be a really bad day on Earth.</p>
+                <h2 class="fw-bolder mb-4 mt-5">I have odd cosmic thoughts every day</h2>
+                <p class="fs-5 mb-4">For me, the most fascinating interface is Twitter. I have odd cosmic thoughts every day and I realized I could hold them to myself or share them with people who might be interested.</p>
+                <p class="fs-5 mb-4">Venus has a runaway greenhouse effect. I kind of want to know what happened there because we're twirling knobs here on Earth without knowing the consequences of it. Mars once had running water. It's bone dry today. Something bad happened there as well.</p> {% endcomment %}
+            </section>
+        </article>
+    </div>
+
+    <div id="comment-area">
+        
+        <!-- Comments section-->
+        <section class="mb-5">
+            <div class="card bg-light">
+                <h5 class="card-header">Leave a Comment:</h5>
+                <div class="card-body">
+                    <!-- Comment form-->
+                    {% if user.is_authenticated %}
+                        <form class="mb-4" id="comment-form" method="POST" action="{{ post.get_absolute_url }}new_comment/">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                {% comment %} <textarea class="form-control" rows="3" placeholder="Leave a comment here!"></textarea> {% endcomment %}
+                                {{ comment_form | crispy    }}
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </form>
+                    {% else %}
+                        <a role="button" class="btn btn-outline-dark btn-block btn-sm" href="#" data-toggle="modal" data-target="#loginModal">Log in and leave a comment</a>
+                    {% endif %}
+                    <br/>
+                    {% comment %} <!-- Comment with nested comments-->
+                    <div class="d-flex mb-4">
+                        <!-- Parent comment-->
+                        <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
+                        <div class="ms-3">
+                            <div class="fw-bold">Commenter Name</div>
+                            If you're going to lead a space frontier, it has to be government; it'll never be private enterprise. Because the space frontier is dangerous, and it's expensive, and it has unquantified risks.
+                            <!-- Child comment 1-->
+                            <div class="d-flex mt-4">
+                                <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
+                                <div class="ms-3">
+                                    <div class="fw-bold">Commenter Name</div>
+                                    And under those conditions, you cannot establish a capital-market evaluation of that enterprise. You can't get investors.
+                                </div>
+                            </div>
+                            <!-- Child comment 2-->
+                            <div class="d-flex mt-4">
+                                <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
+                                <div class="ms-3">
+                                    <div class="fw-bold">Commenter Name</div>
+                                    When you put money directly to a problem, it makes a good headline.
+                                </div>
+                            </div>
+                        </div>
+                    </div> {% endcomment %}
+
+                    {% if post.comment_set.exists %}
+                        {% for comment in post.comment_set.iterator  %}
+                            <!-- Single comment-->
+                            <div class="d-flex" id="comment-{{ comment.pk }}">
+                                <div class="flex-shrink-0 mr-3">
+                                    {% comment %} <img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /> {% endcomment %}
+                                    <img class="rounded-circle" src="{{ comment.get_avatar_url }}" alt="{{ comment.author }}" width="60px">
+                                </div>
+                                <div class="ms-3">
+                                    <div class="fw-bold">
+                                        <h7>{{ comment.author.username }} &nbsp;&nbsp;<small class="text-muted">{{ comment.created_at }}</small></h7>
+                                        {% if user.is_authenticated and comment.author == user %}
+                                            <div class='float-right'>
+                                                <a role =  "button" 
+                                                    class = "btn btn-sm btn-info" 
+                                                    id ="comment-{{ comment.pk }}-update-btn" 
+                                                    href="/blog/update_comment/{{ comment.pk }}/">
+                                                    edit
+                                                </a>
+                                                <a role =  "button"
+                                                    href="#"
+                                                    id ="comment-{{ comment.pk }}-delete-modal-btn" 
+                                                    class = "btn btn-sm btn-danger"
+                                                    data-toggle="modal" data-target="#deleteCommentModal-{{ comment.pk }}">
+                                                    delete
+                                                </a>
+                                            </div>
+
+                                            <!-- Modal-->
+                                            <div class="modal fade" id="deleteCommentModal-{{ comment.pk }}" tabindex="-1" role="dialog" aria-labelledby="deleteCommentModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                        <h5 class="modal-title" id="deleteCommentModalLabel">Are You Sure?</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <del>{{ comment | linebreaks }}</del>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                                            <a role="button" class="btn btn-danger" href="/blog/delete_comment/{{ comment.pk }}/">Delete</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div> 
+                                        {% endif %}
+                                        <p>{{ comment.content | linebreaks }}</p>
+                                        {% if comment.created_at != comment.modified_at  %}
+                                            <p class="text-muted float-right"><small>Updated: {{ comment.modified_at }}</small></p>
+                                        {% endif %}
+                                    </div>
+                                    {% comment %} </div> {% endcomment %}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+
+                </div>
+            </div>
+        
+
+        </section> 
+
+
+    </div>
+    <hr/>
+
+{% endblock  %}

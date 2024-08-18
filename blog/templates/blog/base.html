@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+	<head>
+        <title>{% block head_title %}Blog{% endblock %}</title>
+        <link href="{% static "blog/bootstrap/bootstrap.min.css" %}" rel="stylesheet" media="screen"> 
+        <script src="https://kit.fontawesome.com/e139991e4a.js" crossorigin="anonymous"></script>
+	</head> 
+	<body>     
+
+        {% include "blog/navbar.html" %}
+
+        <div class="container my-3">
+            <div class ="row">
+                <div class="col-md-8 col-lg-9" id="main-area">     
+                    {% block  main_area %}
+                    {% endblock  %}
+                </div>
+                <div class="col-md-4 col-lg-3">
+                    <!-- <h3>Search</h3>
+                    <h4>Categories</h4> -->
+                    <!-- Search widget-->
+                    <div class="card mb-4">
+                        <div class="card-header">Search</div>
+                        <div class="card-body">
+                            <div class="input-group">
+                                <input class="form-control" type="text" placeholder="Enter search term..." aria-label="Enter search term..." id = "search-input" aria-describedby="button-search" />
+                                <button class="btn btn-primary" id="button-search" type="button" onclick="searchPost();">Go!</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Categories widget-->
+                    <div class="card mb-4" id="categories-card">
+                        <div class="card-header">Categories</div>
+                        <div class="card-body">
+                            <div class="row">
+                                <ul class="list-unstyled mb-0">
+                                    {% for category in categories  %}
+                                        <li>
+                                            <a href="{{ category.get_absolute_url }}">{{category}} ({{category.post_set.count}})</a>
+                                        </li>
+                                    {% endfor %}
+                                        <li>
+                                            <a href="/blog/category/no_category">Unclassified ({{ no_category_post_count}})</a>
+                                        </li>
+                                
+                                    
+                                    
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+    </div>
+    <script>
+        function searchPost(){
+            let searchValue = document.getElementById('search-input').value.trim();
+            if (searchValue.length > 1){
+                location.href="/blog/search/" + searchValue + "/";
+            }
+            else{
+                alert('The search term(' + searchValue +') is too short.');
+            }
+        };
+
+        document.getElementById('search-input').addEventListener('keyup', function(event){
+            if(event.key === 'Enter'){
+                searchPost();
+            }
+        });
+    </script>
+    <!-- Footer-->
+    {% include "blog/footer.html" %} 
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js" integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+" crossorigin="anonymous"></script>
+
+        
+	</body>
+</html>

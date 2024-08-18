@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>About Sang-jin</title>
+
+    <link href="{% static "blog/bootstrap/bootstrap.min.css" %}" rel="stylesheet" media="screen"> 
+    <link href="{% static "single_pages/css/about_me.css" %}" rel="stylesheet" media="screen"> 
+    <script src="https://kit.fontawesome.com/e139991e4a.js" crossorigin="anonymous"></script>   
+
+    <style>
+        .col-lg-4 img {
+           filter: blur(0.8px);
+        }
+
+     </style>
+
+    
+</head>
+<body>
+    {% include "blog/navbar.html" %}
+
+    <section>
+        <div class="container mt-4 mb-4">
+            <div class = "row">
+                <div class="col-lg-8">
+                    <h2>For over 14 years, I've been working as a <h2>
+                    <h4></h4>
+                    {% comment %} <h2>I've worked as a "SW Developer", "HCI&HRI researcher", and "Technical Project Manager" for over 13 years</h2> {% endcomment %}
+                    <br/>
+                    {% comment %} <p class = "lead">
+                        I love studying ....<br/>
+                    </p> {% endcomment %}
+                    
+                        
+                    <ul>
+                        <li class="mt-2" style="font-weight: bold;">Software Developer [Dev. Environment] <a href="https://github.com/SangjinKO/">*GitHub Profile</a></li>
+                            <ul>
+                                <li>Large Corp. &nbsp&nbsp - SW Developer[Unix,Java,Oracle,SVN]</li>
+                                <li>Large Corp. &nbsp&nbsp - AI Researcher[Linux,ROS,Docker,Python,Node.js,Git]</li>
+                                <li>Research Lab - HCI Reseracher[Linux/Windows/Android,Python,Java,C#]</li>
+                            </ul>
+                        <li class="mt-2" style="font-weight: bold;">HCI&HRI Researcher [Topic]</li>
+                            <ul>
+                                <li>Large Corp. &nbsp&nbsp - AI Researcher[Machine Learning(Vision)]</li>
+                                <li>Research Lab - HCI Reseracher[Human Interfaces for AV,Drone,and Robot]</li>
+                            </ul>
+                        </li>
+                        <li class="mt-2" style="font-weight: bold;">Project Manager [Project]</li>
+                            <ul>
+                                <li>Start-up &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp - TPM[Serving Robot(FMS,MultiRobot,API)] </li>
+                                <li>Large Corp. &nbsp&nbsp - PM[Surveillance Robot, AGV/AMR Integration System] </li>
+                                <li>Public Corp. &nbsp - PM[National&International Standardization(KS,ISO,IEC)]</li>
+                            </ul>
+                        </li>
+                        <li class="mt-2" style="font-weight: bold;">Information Systems Auditor [Role]</li>
+                            <ul>
+                                <li>Large Corp. &nbsp&nbsp - IT System Security[Internal Access Control]</li>
+                                <li> &nbsp&nbsp&nbsp&nbspT.B.D.&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp - Information System Supervisor</li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                        {% comment %} <li>EDUCATION</li>
+                            <ul>
+                                <li> Master, Industrial Engineering, USA (2020) </li>
+                                <li> Bachelor, Electrical Engineering, Korea (2010) </li>
+                            </ul> {% endcomment %}
+
+                        {% comment %} <li>PUBLISH</li>
+                        <ul>
+                            <li> Research paper, HCI (20xx.xx </li>
+                        </ul> {% endcomment %}
+            
+                </div>
+                <div class="col-lg-4">
+                    <img class="img-fluid" src="{% static "single_pages/images/my_picture.jpg" %}">
+                    
+                    
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="bg-light margin-for-footer">
+        {% comment %} <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h1>PORTFOLIO(TBU)</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class ="col-lg-4">
+                    <div class ="card" data-toggle="modal" data-target="#portfolio1">
+                        <img class="card-img-top" src="{% static 'single_pages/images/desk_computer.jpg' %}">
+                        <div class="card-body">
+                            <h5 class="card-title">Project#1</h5>
+                            <p>Project#1...</p>
+                        </div>
+                    </div>
+                </div>
+                <div class ="col-lg-4">
+                    <div class ="card" data-toggle="modal" data-target="#portfolio2">
+                        <img class="card-img-top" src="{% static 'single_pages/images/desk_computer.jpg' %}">
+                        <div class="card-body">
+                            <h5 class="card-title">Project#2</h5>
+                            <p>Project#2...</p>
+                        </div>
+                    </div>
+                </div>
+                <div class ="col-lg-4">
+                    <div class ="card" data-toggle="modal" data-target="#portfolio3">
+                        <img class="card-img-top" src="{% static 'single_pages/images/desk_computer.jpg' %}">
+                        <div class="card-body">
+                            <h5 class="card-title">Project#3</h5>
+                            <p>Project#3...</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div> {% endcomment %}
+    </section>
+    
+    <!-- Modal -->
+    <div class="modal fade" id="portfolio1" tabindex="-1" role="dialog" aria-labelledby="portfolio1ModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="portfolio1ModalLabel">Project#1</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-7">
+                            <img class="img-fluid" src="{% static 'single_pages/images/desk_computer.jpg' %}">
+                        </div>
+                        <div class="col-lg-5">
+                            <p>Project#1...</p>
+                            <button type="button" class="btn btn-light"><i class="fas fa-chalkboard-teacher"></i>LINK</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="fixed-bottom">
+        {% include "blog/footer.html" %}
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js" integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+" crossorigin="anonymous"></script>
+
+
+
+    {% comment %} <nav>
+        <a href="/blog/">Blog</a>
+        <a href="/about_me/">About Me</a>
+    </nav>
+    <h1>Hello, I am Sangjin.</h1>
+    <h2>I've worked as a "SW Developer", "HCI&HRI researcher", and "Technical Project Manager" for over 13 years</h2>
+    <h3>under construction<h3> {% endcomment %}
+
+</body>
+</html>

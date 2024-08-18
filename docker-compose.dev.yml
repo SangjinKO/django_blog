@@ -1,0 +1,33 @@
+version: '3.3'
+
+services:
+  web:
+    build: .
+    # command: python manage.py runserver 0.0.0.0:8000 && gunicorn django_prj.wsgi:application --bind 0.0.0.0:8000
+    command:
+      - /bin/sh
+      - -c
+      - |
+        echo "Command 1"
+        python manage.py runserver 0.0.0.0:8000
+        gunicorn django_prj.wsgi:application --bind 0.0.0.0:8000
+        echo "Command 3"
+    volumes:
+      - ./:/usr/src/app/
+    ports:
+      - 8000:8000
+    env_file:
+          - ./.env.dev
+    depends_on:
+      - db
+  db:
+    image: postgres:12.0-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=dev
+      - POSTGRES_PASSWORD=devdev
+      - POSTGRES_DB=my_blog_dev
+
+volumes:
+  postgres_data:
