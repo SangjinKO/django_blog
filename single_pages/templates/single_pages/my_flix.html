@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sangjin's Flix</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+        
+    <script src="{% static "single_pages/js/my_flix_key.js" %}"></script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap');
+
+        * {
+            font-family: "Gowun Dodum", sans-serif;
+        }
+
+        .main {
+            background-color: green;
+            color: white;
+
+            background-image: url('https://occ-0-1123-1217.1.nflxso.net/dnm/api/v6/6AYY37jfdO6hpXcMjf9Yu5cnmO0/AAAABeIfo7VL_VDyKnljV66IkR-4XLb6xpZqhpLSo3JUtbivnEW4s60PD27muH1mdaANM_8rGpgbm6L2oDgA_iELHZLZ2IQjG5lvp5d2.jpg?r=e6e.jpg');
+            background-position: center;
+            background-size: cover;
+        }
+
+        body {
+            background-color: black;
+        }
+
+        .mycards {
+            width: 1200px;
+            margin: 20px auto 20px auto;
+        }
+
+        .mypostingbox {
+            width: 500px;
+            margin: 20px auto 20px auto;
+            border: 1px solid white;
+            padding: 20px;
+            border-radius: 5px;
+        }
+
+        .form-floating>input {
+            background-color: transparent;
+            color: white;
+        }
+
+        .form-floating>label {
+            color: white;
+        }
+
+        .input-group>label {
+            background-color: transparent;
+            color: white;
+        }
+
+        .mypostingbox>button {
+            width: 100%;
+        }
+    </style>
+    
+    <script type="module">
+        // Firebase SDK 
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+        import { getFirestore } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+        import { collection, addDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+        import { getDocs } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        // const FIREBASE_API_KEY = config.FIREBASE_API_KEY
+        const firebaseConfig = FIREBASE_config
+
+        // Firebase Init
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        $("#postingbtn").click(async function () {
+
+            let image = $('#image').val();
+            let title = $('#title').val();
+            let comment = $('#comment').val();
+            let star = $('#star').val();
+
+            let doc = {
+                'image': image,
+                'title': title,
+                'comment': comment,
+                'star': star
+            };
+            
+            // await addDoc(collection(db, "movies"), doc); // BLOCK save button
+            alert('Sorry but the save function has been disabled in PROD for security reasons');
+            
+            window.location.reload();
+        })
+
+        // Movie Rank API (Korea), OpenAPI
+        // console.log(MOVIEAPI_config.URL)
+        URL = "https://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=d92f213c5c48e942e1aab0de7bd76775&itemPerPage=3&targetDt=" + LASTDAY
+        fetch(URL).then(res => res.json()).then(data => {
+            let rankList = data['boxOfficeResult']['dailyBoxOfficeList'];
+            let name_rank1 = rankList[0]['movieNm'];
+            let aud_rank1 = rankList[0]['audiAcc'];
+            let name_rank2 = rankList[1]['movieNm'];
+            let aud_rank2 = rankList[1]['audiAcc'];
+            let name_rank3 = rankList[2]['movieNm'];
+            let aud_rank3 = rankList[2]['audiAcc'];
+            $('#name_rank1').text(name_rank1);
+            $('#aud_rank1').text(parseInt(aud_rank1, 10).toLocaleString("en-US"));
+            $('#name_rank2').text(name_rank2);
+            $('#aud_rank2').text(parseInt(aud_rank2, 10).toLocaleString("en-US"));
+            $('#name_rank3').text(name_rank3);
+            $('#aud_rank3').text(parseInt(aud_rank3, 10).toLocaleString("en-US"));
+            $('#LASTDAY_disp').text(LASTDAY_disp); 
+
+        })
+
+        
+
+        let docs = await getDocs(collection(db, "movies"));
+        docs.forEach((doc) => {
+            let row = doc.data();
+            let image = row['image'];
+            let title = row['title'];
+            let comment = row['comment'];
+            let star = row['star'];
+
+            let temp_html = `           
+            <div class="col">
+                <div class="card">
+                    <img src="${image}"
+                        class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">${title}</h5>
+                        <p class="card-text">${star}</p>
+                        <p class="card-text">${comment}</p>
+                    </div>
+                </div>
+            </div>`;
+            $('#card').append(temp_html);
+        });
+
+        $("#savebtn").click(async function () {
+            $('#postingbox').toggle();
+        })
+
+    </script>
+</head>
+
+<body>
+    <header class="p-3 text-bg-dark">
+        <div class="container">
+            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+                <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+                    <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap">
+                        <use xlink:href="#bootstrap"></use>
+                    </svg>
+                </a>
+
+                <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                    <li><a href="#" class="nav-link px-2 text-danger">MYFLIX</a></li>
+                    <li><a href="#" class="nav-link px-2 text-white">&nbsp&nbsp&nbsp&nbsp "Movie Rankings & My Reviews"</a></li>
+                
+                </ul>
+
+                
+            </div>
+        </div>
+    </header>
+
+    <div class="main">
+        <div class="p-5 mb-4 bg-body-tertiary rounded-3">
+            <div class="container-fluid py-5">
+                <h1 class="display-5 fw-bold">Korean Box Office Rankings<span style="font-size: 50%;"> (Last Week:</span><span id="LASTDAY_disp" style="font-size: 50%;"></span><span style="font-size: 50%;">)</span></h1>
+                <p class="col-md-8 fs-4">1. <span id="name_rank1"></span> (Total Audience: <span id="aud_rank1"></span>) </p>
+                <p class="col-md-8 fs-4">2. <span id="name_rank2"></span> (Total Audience: <span id="aud_rank2"></span>) </p>
+                <p class="col-md-8 fs-4">3. <span id="name_rank3"></span> (Total Audience: <span id="aud_rank3"></span>) </p>
+                <button id="savebtn" type="button" class="btn btn-outline-light" > Add a New Review to MYFLIX </button>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="mypostingbox" id="postingbox" style="display: none">
+        <div class="form-floating mb-3">
+            <input type="email" class="form-control" id="image" placeholder="Content Imgae Link">
+            <label for="floatingInput">Content Imgae Link</label>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="email" class="form-control" id="title" placeholder="Content Title">
+            <label for="floatingInput">Content Title</label>
+        </div>
+        <div class="input-group mb-3">
+            <label class="input-group-text" for="inputGroupSelect01">Star</label>
+            <select class="form-select" id="star">
+                <option selected>Select Star</option>
+                <option value="⭐">⭐</option>
+                <option value="⭐⭐">⭐⭐</option>
+                <option value="⭐⭐⭐">⭐⭐⭐</option>
+                <option value="⭐⭐⭐⭐">⭐⭐⭐⭐</option>
+                <option value="⭐⭐⭐⭐⭐">⭐⭐⭐⭐⭐</option>
+            </select>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="email" class="form-control" id="comment" placeholder="Comments">
+            <label for="floatingInput">Comments</label>
+        </div>
+        <button id="postingbtn" type="button" class="btn btn-danger">Save(Add New List)</button>
+    </div>
+
+    </div>
+
+    <div class="mycards">
+        <div id="card" class="row row-cols-1 row-cols-md-4 g-4">
+        </div>
+    </div>
+</body>
+
+</html>

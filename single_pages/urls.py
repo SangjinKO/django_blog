@@ -4,5 +4,6 @@ from . import views
 
 urlpatterns = [
     path('about_me/', views.about_me),
-    path('', views.landing),
+    path('my_flix/', views.my_flix),
+    path('', views.landing)
 ]

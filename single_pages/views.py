@@ -17,5 +17,11 @@ def about_me(request):
         'single_pages/about_me.html'
     )
 
+def my_flix(request):
+    return render(
+        request,
+        'single_pages/my_flix.html'
+    )
+
 
 # Create your views here.

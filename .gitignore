@@ -177,7 +177,8 @@ data/
 init-letsencrypt.sh
 
 nginx/
-
 _static
+
+my_flix_key.js
 
 ##For local test: docker-compose up >> migrate >> createsuperuser >> set 'site'
