@@ -180,5 +180,5 @@ nginx/
 _static
 
 my_flix_key.js
-
+.DS_Store
 ##For local test: docker-compose up >> migrate >> createsuperuser >> set 'site'
