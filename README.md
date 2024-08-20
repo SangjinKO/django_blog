@@ -21,4 +21,4 @@ Includes:
   - shows my profile
 
   
-![Screenshot 2024-08-19 at 12 32 18 PM](https://github.com/user-attachments/assets/3593eca3-43d4-450e-b869-d4e9a2c9e751)
+![Screenshot 2024-08-20 at 3 32 41 PM](https://github.com/user-attachments/assets/6f27580b-99ac-48a3-8c1e-5771baabb778)
