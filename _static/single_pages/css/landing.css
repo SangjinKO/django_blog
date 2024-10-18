@@ -1,6 +1,8 @@
 body {
     /* background: url('/static/single_pages/images/background_desk_computer.jpg') no-repeat center center fixed; */
-    background: url('/static/single_pages/images/background_dark_nature.jpg') no-repeat center center fixed;
+    background: url('/static/single_pages/images/background_dark_nature2.jpg') no-repeat center center fixed;
+    /* background: url('/static/single_pages/images/background_dark_tech.webp') no-repeat center center fixed; */
+
     
         -webkit-background-size: cover;
         -moz-background-size: cover;
