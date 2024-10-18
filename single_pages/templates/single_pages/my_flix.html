@@ -86,6 +86,7 @@
             let title = $('#title').val();
             let comment = $('#comment').val();
             let star = $('#star').val();
+            let secretkey = $('#secretkey').val();
 
             let doc = {
                 'image': image,
@@ -94,10 +95,14 @@
                 'star': star
             };
             
-            // await addDoc(collection(db, "movies"), doc); // BLOCK save button
-            alert('Sorry but the save function has been disabled in PROD for security reasons');
+            // console.log(secretkey);
+            if (secretkey === SAVEKEY) {
+                await addDoc(collection(db, "movies"), doc); 
+                window.location.reload();
+            } else {
+                alert('Secret key is not valid. Please enter a valid secret key to save');
+            }
             
-            window.location.reload();
         })
 
         // Movie Rank API (Korea), OpenAPI
@@ -211,7 +216,12 @@
             <input type="email" class="form-control" id="comment" placeholder="Comments">
             <label for="floatingInput">Comments</label>
         </div>
-        <button id="postingbtn" type="button" class="btn btn-danger">Save(Add New List)</button>
+        <button id="postingbtn" type="button" class="btn btn-danger mb-3">SAVE</button>
+        
+        <div class="form-floating mb-3">
+            <input type="secretkey" class="form-control" id="secretkey" placeholder="SecretKey">
+            <label for="floatingInput">Secret Key(Required to Save)</label>
+        </div>
     </div>
 
     </div>
